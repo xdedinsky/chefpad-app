@@ -57,18 +57,18 @@
     </section>
 
     <!-- CTA Section -->
-    <section class="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-8 sm:py-12">
-      <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <h2 class="text-2xl sm:text-3xl font-bold mb-4">Pripravený začať?</h2>
-        <p class="text-blue-100 mb-6 text-base sm:text-lg">Explore all features a optimalizuj svoje varenie</p>
-        <router-link
-          to="/foods"
-          class="inline-block bg-white text-blue-600 px-6 py-2 sm:px-8 sm:py-3 rounded-lg font-bold hover:bg-blue-50 transition-colors"
-        >
-          Objavuj jedlá →
-        </router-link>
-      </div>
-    </section>
+  <section class="fixed bottom-0 left-0 right-0 bg-gradient-to-r from-blue-600 to-blue-800 text-white py-4 sm:py-6 shadow-lg z-40">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-xl sm:text-2xl font-bold mb-2">Pripravený začať?</h2>
+      <p class="text-blue-100 mb-4 text-sm sm:text-base">Explore all features a optimalizuj svoje varenie</p>
+      <router-link
+        to="/foods"
+        class="inline-block bg-white text-blue-600 px-6 py-2 sm:px-8 sm:py-3 rounded-lg font-bold hover:bg-blue-50 transition-colors"
+      >
+        Objavuj jedlá →
+      </router-link>
+    </div>
+  </section>
   </div>
 </template>
 

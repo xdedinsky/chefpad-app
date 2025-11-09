@@ -9,6 +9,36 @@ const apiClient = axios.create({
   },
 });
 
+// Interceptor - pridanie tokenu do každého requestu
+apiClient.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem('authToken');
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
+
+// Interceptor - handling 401
+apiClient.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response?.status === 401) {
+      localStorage.removeItem('authToken');
+      window.location.href = '/login';
+    }
+    return Promise.reject(error);
+  }
+);
+
+// Auth API
+export const authAPI = {
+  register: (data) => apiClient.post('/auth/register', data),
+  login: (data) => apiClient.post('/auth/login', data),
+};
+
 // Ingredients API
 export const ingredientAPI = {
   getAll: () => apiClient.get('/ingredient'),
@@ -29,18 +59,15 @@ export const allergenAPI = {
 
 // Meal Schedule API
 export const mealScheduleAPI = {
-  get: (userId, from = undefined, to = undefined) =>
+  get: (from = undefined, to = undefined) =>
     apiClient.get('/meal-schedule', {
-      params: { userId, from, to },
+      params: { from, to },
     }),
 };
 
 // Shopping List API
 export const shoppingListAPI = {
-  get: (userId) =>
-    apiClient.get('/shopping-list', {
-      params: { userId },
-    }),
+  get: () => apiClient.get('/shopping-list'),
 };
 
 export default apiClient;

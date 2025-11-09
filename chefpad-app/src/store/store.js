@@ -1,4 +1,5 @@
 import { createStore } from 'vuex';
+import { authAPI } from '../api/api-client';
 
 export default createStore({
   state() {
@@ -10,8 +11,11 @@ export default createStore({
       shoppingList: [],
       loading: false,
       error: null,
-      currentUserId: 1,
       selectedFood: null,
+      
+      authToken: localStorage.getItem('authToken') || null,
+      user: JSON.parse(localStorage.getItem('user')) || null,
+      isAuthenticated: !!localStorage.getItem('authToken'),
     };
   },
 
@@ -56,8 +60,31 @@ export default createStore({
       state.error = error;
     },
 
-    setCurrentUserId(state, userId) {
-      state.currentUserId = userId;
+    setAuthToken(state, token) {
+      state.authToken = token;
+      state.isAuthenticated = !!token;
+      if (token) {
+        localStorage.setItem('authToken', token);
+      } else {
+        localStorage.removeItem('authToken');
+      }
+    },
+
+    setUser(state, user) {
+      state.user = user;
+      if (user) {
+        localStorage.setItem('user', JSON.stringify(user));
+      } else {
+        localStorage.removeItem('user');
+      }
+    },
+
+    logout(state) {
+      state.authToken = null;
+      state.user = null;
+      state.isAuthenticated = false;
+      localStorage.removeItem('authToken');
+      localStorage.removeItem('user');
     },
 
     clearStore(state) {
@@ -113,11 +140,55 @@ export default createStore({
       commit('setError', error);
     },
 
-    setCurrentUserId({ commit }, userId) {
-      commit('setCurrentUserId', userId);
+    async login({ commit }, credentials) {
+      try {
+        const response = await authAPI.login(credentials);
+        const { token } = response.data;
+        
+        commit('setAuthToken', token);
+        
+        commit('setUser', { email: credentials.email });
+        
+        return { success: true };
+      } catch (error) {
+        return { 
+          success: false, 
+          error: error.response?.data?.message || 'Prihlásenie zlyhalo' 
+        };
+      }
     },
 
-    clearStore({ commit }) {
+    async register({ commit }, userData) {
+      try {
+        const response = await authAPI.register(userData);
+        const { id } = response.data;
+        
+        const loginResult = await authAPI.login({
+          email: userData.email,
+          password: userData.password,
+        });
+        
+        const { token } = loginResult.data;
+        
+        commit('setAuthToken', token);
+        commit('setUser', {
+          id,
+          email: userData.email,
+          name: userData.name,
+          lastName: userData.lastName,
+        });
+        
+        return { success: true };
+      } catch (error) {
+        return { 
+          success: false, 
+          error: error.response?.data?.message || 'Registrácia zlyhala' 
+        };
+      }
+    },
+
+    logout({ commit }) {
+      commit('logout');
       commit('clearStore');
     },
   },
@@ -151,12 +222,20 @@ export default createStore({
       return state.error;
     },
 
-    getCurrentUserId(state) {
-      return state.currentUserId;
-    },
-
     getSelectedFood(state) {
       return state.selectedFood;
+    },
+
+    isAuthenticated(state) {
+      return state.isAuthenticated;
+    },
+
+    currentUser(state) {
+      return state.user;
+    },
+
+    authToken(state) {
+      return state.authToken;
     },
   },
 });

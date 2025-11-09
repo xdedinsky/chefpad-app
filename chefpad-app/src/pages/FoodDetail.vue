@@ -25,44 +25,88 @@
       </div>
 
       <!-- Food Details -->
-      <div v-else-if="details" class="bg-white rounded-lg shadow-lg p-8">
-        <h1 class="text-4xl font-bold text-gray-900 mb-8">{{ details.name }}</h1>
+      <div v-else-if="details" class="space-y-6">
+        <!-- Header Card -->
+        <div class="bg-white rounded-lg shadow-lg p-8">
+          <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-6">
+            <div class="flex-1">
+              <h1 class="text-4xl font-bold text-gray-900 mb-4">{{ details.name }}</h1>
+              
+              <!-- Description -->
+              <div v-if="details.description" class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+                <h3 class="font-semibold text-blue-900 mb-2">📝 Popis</h3>
+                <p class="text-gray-700 leading-relaxed">{{ details.description }}</p>
+              </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex flex-col gap-3 md:min-w-[200px]">
+              <button
+                @click="addToCart"
+                class="flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors shadow-md"
+              >
+                🛒 Pridať do košíka
+              </button>
+              <button
+                @click="addToCalendar"
+                class="flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors shadow-md"
+              >
+                📅 Pridať do kalendára
+              </button>
+            </div>
+          </div>
+        </div>
 
         <!-- Ingredients Section -->
-        <div class="mb-8">
-          <h2 class="text-2xl font-bold text-gray-900 mb-4">
+        <div class="bg-white rounded-lg shadow-lg p-8">
+          <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+            <span>🥗</span>
             Ingrediencie ({{ details.ingredients?.length || 0 }})
           </h2>
           
-          <div v-if="details.ingredients && details.ingredients.length > 0" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div v-if="details.ingredients && details.ingredients.length > 0" class="space-y-3">
             <div
-              v-for="ingredient in details.ingredients"
-              :key="ingredient.id"
-              class="bg-gray-50 rounded-lg p-4 border border-gray-200"
+              v-for="item in details.ingredients"
+              :key="item.id"
+              class="bg-gray-50 rounded-lg p-5 border border-gray-200 hover:border-blue-300 transition-colors"
             >
-              <h3 class="font-bold text-gray-900 mb-2">{{ ingredient.name }}</h3>
-              <div v-if="ingredient.allergens && ingredient.allergens.length > 0" class="flex flex-wrap gap-2">
-                <span
-                  v-for="allergen in ingredient.allergens"
-                  :key="allergen.id"
-                  class="inline-block bg-red-100 text-red-800 px-3 py-1 rounded-full text-sm font-medium"
-                >
-                  ⚠️ {{ allergen.name }}
-                </span>
+              <div class="flex items-start justify-between gap-4">
+                <div class="flex-1">
+                  <h3 class="font-bold text-gray-900 text-lg mb-2">
+                    {{ item.ingredient.name }}
+                  </h3>
+                  <p class="text-blue-600 font-semibold text-lg">
+                    {{ item.amount }} {{ item.unit }}
+                  </p>
+                </div>
+                
+                <!-- Allergens -->
+                <div v-if="item.ingredient.allergens && item.ingredient.allergens.length > 0" class="flex flex-wrap gap-2 justify-end max-w-xs">
+                  <span
+                    v-for="allergen in item.ingredient.allergens"
+                    :key="allergen.id"
+                    class="inline-block bg-red-100 text-red-800 px-3 py-1 rounded-full text-xs font-medium whitespace-nowrap"
+                  >
+                    ⚠️ {{ allergen.name }}
+                  </span>
+                </div>
               </div>
             </div>
           </div>
-          <p v-else class="text-gray-600 italic">Žiadne ingrediencie registrované</p>
+          <p v-else class="text-gray-600 italic text-center py-8">Žiadne ingrediencie registrované</p>
         </div>
 
         <!-- Allergens Summary -->
-        <div v-if="hasAllergens" class="bg-yellow-50 border border-yellow-200 rounded-lg p-6">
-          <h3 class="font-bold text-yellow-900 mb-3">⚠️ Alergény v tomto jídle:</h3>
+        <div v-if="hasAllergens" class="bg-yellow-50 border border-yellow-300 rounded-lg p-6 shadow-md">
+          <h3 class="font-bold text-yellow-900 mb-3 flex items-center gap-2 text-lg">
+            <span>⚠️</span>
+            Alergény v tomto jedle:
+          </h3>
           <div class="flex flex-wrap gap-2">
             <span
               v-for="allergen in uniqueAllergens"
               :key="allergen"
-              class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm font-medium"
+              class="bg-yellow-100 text-yellow-900 px-4 py-2 rounded-full text-sm font-semibold"
             >
               {{ allergen }}
             </span>
@@ -89,15 +133,15 @@ export default {
     hasAllergens() {
       return (
         this.details?.ingredients?.some(
-          (i) => i.allergens && i.allergens.length > 0
+          (item) => item.ingredient.allergens && item.ingredient.allergens.length > 0
         ) || false
       );
     },
     uniqueAllergens() {
       if (!this.details?.ingredients) return [];
       const allergens = new Set();
-      this.details.ingredients.forEach((ingredient) => {
-        ingredient.allergens?.forEach((allergen) => {
+      this.details.ingredients.forEach((item) => {
+        item.ingredient.allergens?.forEach((allergen) => {
           allergens.add(allergen.name);
         });
       });
@@ -123,6 +167,14 @@ export default {
     },
     goBack() {
       this.$router.push({ name: 'Foods' });
+    },
+    addToCart() {
+      // TODO: Implementovať pridanie do košíka
+      alert(`"${this.details.name}" bude pridané do košíka (funkcia zatiaľ nie je implementovaná)`);
+    },
+    addToCalendar() {
+      // TODO: Implementovať pridanie do kalendára
+      alert(`"${this.details.name}" bude pridané do kalendára (funkcia zatiaľ nie je implementovaná)`);
     },
   },
 };
