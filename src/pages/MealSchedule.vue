@@ -22,9 +22,7 @@
       <div class="bg-white rounded-lg shadow-md p-6 mb-8">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label class="block text-sm font-medium text-black mb-2" style="color: #000 !important;">
-              Od
-            </label>
+            <label class="block text-sm font-medium text-black mb-2" style="color:#000;">Od</label>
             <input
               v-model="fromDate"
               type="date"
@@ -32,9 +30,7 @@
             />
           </div>
           <div>
-            <label class="block text-sm font-medium text-black mb-2" style="color: #000 !important;">
-              Do
-            </label>
+            <label class="block text-sm font-medium text-black mb-2" style="color:#000;">Do</label>
             <input
               v-model="toDate"
               type="date"
@@ -71,7 +67,17 @@
                 <span class="text-2xl">{{ getDayPartIcon(meal.dayPart) }}</span>
                 <div>
                   <p class="text-xs text-gray-600 font-medium">{{ getDayPartLabel(meal.dayPart) }}</p>
-                  <p class="text-lg font-bold text-black">{{ meal.foodName }}</p>
+                  <!-- Klikatelné meno jedla -->
+                  <router-link
+                    v-if="meal.foodId"
+                    :to="{ name: 'FoodDetail', params: { id: meal.foodId } }"
+                    class="text-lg font-bold text-blue-700 hover:underline transition-colors"
+                  >
+                    {{ meal.foodName }}
+                  </router-link>
+                  <span v-else class="text-lg font-bold text-black">
+                    {{ meal.foodName }}
+                  </span>
                 </div>
               </div>
               
@@ -125,9 +131,7 @@ export default {
   },
   computed: {
     groupedSchedules() {
-      // Zoskupenie jedál podľa dátumu
       const grouped = {};
-      
       this.mealSchedules.forEach(schedule => {
         if (!grouped[schedule.date]) {
           grouped[schedule.date] = {
@@ -137,27 +141,18 @@ export default {
         }
         grouped[schedule.date].meals.push({
           id: schedule.id,
-          dayPart: schedule.dayPartName,
+          foodId: schedule.foodId,           
+          dayPart: schedule.dayPart || schedule.dayPartName,
           foodName: schedule.foodName || 'Neznáme jedlo',
         });
       });
-
-      // Konverzia na pole a zoradenie podľa dátumu
-      return Object.values(grouped).sort((a, b) => 
-        new Date(a.date) - new Date(b.date)
-      );
+      return Object.values(grouped).sort((a, b) => new Date(a.date) - new Date(b.date));
     },
   },
   watch: {
-    fromDate() {
-      this.loadMealSchedules();
-    },
-    toDate() {
-      this.loadMealSchedules();
-    },
-    refreshTrigger() {
-      this.loadMealSchedules();
-    },
+    fromDate() { this.loadMealSchedules(); },
+    toDate() { this.loadMealSchedules(); },
+    refreshTrigger() { this.loadMealSchedules(); },
   },
   mounted() {
     this.loadMealSchedules();
@@ -197,7 +192,7 @@ export default {
         VECERA: '🌙',
         NESKORA_VECERA: '🌃',
       };
-      return icons[dayPart] || '🍴';
+      return icons[dayPart?.toUpperCase()] || '🍴';
     },
     getDayPartLabel(dayPart) {
       const labels = {
@@ -208,14 +203,10 @@ export default {
         VECERA: 'Večera',
         NESKORA_VECERA: 'Neskorá večera',
       };
-      return labels[dayPart] || dayPart;
+      return labels[dayPart?.toUpperCase()] || dayPart;
     },
-    openAddModal() {
-      this.showAddModal = true;
-    },
-    closeAddModal() {
-      this.showAddModal = false;
-    },
+    openAddModal() { this.showAddModal = true; },
+    closeAddModal() { this.showAddModal = false; },
     async onMealAdded() {
       this.refreshTrigger++;
       this.$store.dispatch('setSuccess', 'Jedlo bolo úspešne pridané do plánu');
@@ -224,7 +215,6 @@ export default {
       if (!confirm('Naozaj chceš odstrániť toto jedlo z plánu?')) {
         return;
       }
-
       try {
         await mealScheduleAPI.delete(mealId);
         this.refreshTrigger++;
@@ -237,6 +227,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-</style>
