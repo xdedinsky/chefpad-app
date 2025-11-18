@@ -175,6 +175,39 @@
       </div>
     </nav>
 
+        <!-- Success Notification -->
+    <transition name="fade">
+      <div 
+        v-if="$store.getters.getSuccess" 
+        class="fixed top-4 left-1/2 transform -translate-x-1/2 bg-green-100 text-green-800 px-6 py-4 rounded-lg shadow-lg z-50 border-2 border-green-300 flex items-center gap-3 max-w-md"
+      >
+        <span class="text-2xl">✅</span>
+        <span class="font-medium">{{ $store.getters.getSuccess }}</span>
+        <button 
+          @click="$store.dispatch('clearSuccess')" 
+          class="ml-auto text-green-600 hover:text-green-800 font-bold"
+        >
+          ×
+        </button>
+      </div>
+    </transition>
+
+    <!-- Error Notification -->
+    <transition name="fade">
+      <div 
+        v-if="$store.getters.getError" 
+        class="fixed top-4 left-1/2 transform -translate-x-1/2 bg-red-100 text-red-800 px-6 py-4 rounded-lg shadow-lg z-50 border-2 border-red-300 flex items-center gap-3 max-w-md"
+      >
+        <span class="text-2xl">❌</span>
+        <span class="font-medium">{{ $store.getters.getError }}</span>
+        <button 
+          @click="$store.dispatch('clearError')" 
+          class="ml-auto text-red-600 hover:text-red-800 font-bold"
+        >
+          ×
+        </button>
+      </div>
+    </transition>
     <!-- Main Content -->
     <main>
       <router-view />

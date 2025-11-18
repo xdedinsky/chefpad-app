@@ -39,7 +39,7 @@
               </div>
               <div class="flex-1">
                 <h3 class="text-lg font-bold text-black">
-                  {{ item.ingredient?.name || 'Neznáma ingrediencia' }}
+                  {{ item.ingredientName|| 'Neznáma ingrediencia' }}
                 </h3>
                 <p class="text-green-600 font-semibold text-lg">
                   {{ item.amount }} {{ item.unit }}

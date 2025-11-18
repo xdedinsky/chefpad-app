@@ -3,7 +3,7 @@
     <div class="bg-white rounded-lg shadow-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto">
       <!-- Header -->
       <div class="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between">
-        <h2 class="text-2xl font-bold text-black">
+        <h2 class="text-2xl font-bold" style="color: #000;">
           {{ isEditMode ? '✏️ Upraviť jedlo' : '➕ Pridať nové jedlo' }}
         </h2>
         <button @click="$emit('close')" class="text-gray-400 hover:text-gray-600 text-2xl">
@@ -15,13 +15,14 @@
       <form @submit.prevent="submitForm" class="p-6 space-y-6">
         <!-- Názov -->
         <div>
-          <label class="block text-sm font-semibold text-black mb-2">
+          <label class="block text-sm font-semibold mb-2" style="color: #000;">
             Názov jedla <span class="text-red-500">*</span>
           </label>
           <input
             v-model="formData.name"
             type="text"
             required
+            style="color: #000 !important;"
             class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="Napr. Francúzska cibuľačka"
           />
@@ -29,12 +30,13 @@
 
         <!-- Popis -->
         <div>
-          <label class="block text-sm font-semibold text-black mb-2">
+          <label class="block text-sm font-semibold mb-2" style="color: #000;">
             Popis
           </label>
           <textarea
             v-model="formData.description"
             rows="3"
+            style="color: #000 !important;"
             class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="Krátky popis jedla..."
           ></textarea>
@@ -42,7 +44,7 @@
 
         <!-- Ingrediencie -->
         <div>
-          <label class="block text-sm font-semibold text-black mb-2">
+          <label class="block text-sm font-semibold mb-2" style="color: #000;">
             Ingrediencie <span class="text-red-500">*</span>
           </label>
           
@@ -55,6 +57,7 @@
               <select
                 v-model="item.ingredientId"
                 required
+                style="color: #000 !important;"
                 class="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
                 <option value="" disabled>Vyber ingredienciu</option>
@@ -69,6 +72,7 @@
                 step="0.01"
                 required
                 min="0"
+                style="color: #000 !important;"
                 class="w-24 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="100"
               />
@@ -76,6 +80,7 @@
               <select
                 v-model="item.unit"
                 required
+                style="color: #000 !important;"
                 class="w-20 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
                 <option value="g">g</option>
@@ -109,14 +114,16 @@
           <button
             type="button"
             @click="$emit('close')"
-            class="flex-1 px-6 py-3 border border-gray-300 rounded-lg text-black font-semibold hover:bg-gray-50 transition-colors"
+            style="color: #000;"
+            class="flex-1 px-6 py-3 border border-gray-300 rounded-lg font-semibold hover:bg-gray-50 transition-colors"
           >
             Zrušiť
           </button>
           <button
             type="submit"
             :disabled="loading"
-            class="flex-1 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            style="color: #fff; background-color: #2563eb;"
+            class="flex-1 px-6 py-3 hover:bg-blue-700 rounded-lg font-semibold transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {{ loading ? 'Ukladám...' : (isEditMode ? 'Uložiť zmeny' : 'Vytvoriť jedlo') }}
           </button>

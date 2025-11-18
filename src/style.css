@@ -779,3 +779,83 @@ code {
     padding: var(--space-1) var(--space-2);
   }
 }
+
+/* FIX: Force black text on all form elements and labels */
+input,
+select,
+textarea,
+input.form-control,
+select.form-control,
+textarea.form-control,
+.form-control {
+  color: #000 !important;
+}
+
+label,
+.form-label {
+  color: #000 !important;
+}
+
+/* Fix for placeholder text */
+input::placeholder,
+textarea::placeholder {
+  color: #6b7280 !important;
+  opacity: 1;
+}
+
+/* Fix for select options */
+select option {
+  color: #000 !important;
+  background-color: #fff;
+}
+
+/* Fix for headings */
+h1, h2, h3, h4, h5, h6 {
+  color: #000 !important;
+}
+
+/* Override dark mode text colors for forms */
+@media (prefers-color-scheme: dark) {
+  input,
+  select,
+  textarea,
+  input.form-control,
+  select.form-control,
+  textarea.form-control,
+  .form-control {
+    color: #000 !important;
+    background-color: #fff !important;
+  }
+
+  label,
+  .form-label {
+    color: #000 !important;
+  }
+
+  select option {
+    color: #000 !important;
+    background-color: #fff;
+  }
+}
+
+/* Also override for manual theme switching */
+[data-color-scheme="dark"] input,
+[data-color-scheme="dark"] select,
+[data-color-scheme="dark"] textarea,
+[data-color-scheme="dark"] input.form-control,
+[data-color-scheme="dark"] select.form-control,
+[data-color-scheme="dark"] textarea.form-control,
+[data-color-scheme="dark"] .form-control {
+  color: #000 !important;
+  background-color: #fff !important;
+}
+
+[data-color-scheme="dark"] label,
+[data-color-scheme="dark"] .form-label {
+  color: #000 !important;
+}
+
+[data-color-scheme="dark"] select option {
+  color: #000 !important;
+  background-color: #fff;
+}

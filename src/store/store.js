@@ -11,6 +11,7 @@ export default createStore({
       shoppingList: [],
       loading: false,
       error: null,
+      success: null,
       selectedFood: null,
       
       authToken: localStorage.getItem('authToken') || null,
@@ -60,6 +61,18 @@ export default createStore({
       state.error = error;
     },
 
+    clearError(state) {
+      state.error = null;
+    },
+
+    setSuccess(state, message) {
+      state.success = message;
+    },
+
+    clearSuccess(state) {
+      state.success = null;
+    },
+
     setAuthToken(state, token) {
       state.authToken = token;
       state.isAuthenticated = !!token;
@@ -95,6 +108,7 @@ export default createStore({
       state.shoppingList = [];
       state.loading = false;
       state.error = null;
+      state.success = null;
       state.selectedFood = null;
     },
   },
@@ -138,6 +152,27 @@ export default createStore({
 
     setError({ commit }, error) {
       commit('setError', error);
+      // Automaticky skryť po 4 sekundách
+      setTimeout(() => {
+        commit('clearError');
+      }, 4000);
+    },
+
+    clearError({ commit }) {
+      commit('clearError');
+    },
+
+    // PRIDANÉ - Success akcia
+    setSuccess({ commit }, message) {
+      commit('setSuccess', message);
+      // Automaticky skryť po 3,5 sekundách
+      setTimeout(() => {
+        commit('clearSuccess');
+      }, 3500);
+    },
+
+    clearSuccess({ commit }) {
+      commit('clearSuccess');
     },
 
     async login({ commit }, credentials) {
@@ -146,7 +181,6 @@ export default createStore({
         const { token } = response.data;
         
         commit('setAuthToken', token);
-        
         commit('setUser', { email: credentials.email });
         
         return { success: true };
@@ -220,6 +254,10 @@ export default createStore({
 
     getError(state) {
       return state.error;
+    },
+
+    getSuccess(state) {
+      return state.success;
     },
 
     getSelectedFood(state) {

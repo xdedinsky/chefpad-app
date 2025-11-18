@@ -6,11 +6,12 @@
         <div class="flex items-center justify-between mb-4">
           <div class="flex items-center gap-3">
             <span class="text-4xl">🍽️</span>
-            <h1 class="text-3xl sm:text-4xl font-bold text-black">Jedlá</h1>
+            <h1 class="text-3xl sm:text-4xl font-bold text-gray-900">Jedlá</h1>
           </div>
           <button
             @click="openCreateModal"
-            class="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors shadow-md"
+            style="color: #fff; background-color: #2563eb;"
+            class="flex items-center gap-2 hover:bg-blue-700 px-6 py-3 rounded-lg font-semibold transition-colors shadow-md"
           >
             ➕ Nové jedlo
           </button>
@@ -25,6 +26,7 @@
           <input
             v-model="searchTerm"
             type="text"
+            style="color: #000 !important;"
             placeholder="Vyhľadaj jedlo..."
             class="w-full pl-12 pr-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
@@ -49,7 +51,7 @@
             class="cursor-pointer"
           >
             <div class="flex items-center justify-between mb-3">
-              <h3 class="text-xl font-bold text-black group-hover:text-blue-600 transition-colors">
+              <h3 class="text-xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors">
                 {{ food.name }}
               </h3>
               <span class="text-2xl">🍽️</span>
@@ -61,13 +63,15 @@
           <div class="flex gap-2 mt-4 pt-4 border-t border-gray-200">
             <button
               @click.stop="openEditModal(food)"
-              class="flex-1 px-3 py-2 bg-yellow-500 hover:bg-yellow-600 text-white rounded-lg font-medium text-sm transition-colors"
+              style="color: #000; background-color: #eab308;"
+              class="flex-1 px-3 py-2 hover:bg-yellow-600 rounded-lg font-medium text-sm transition-colors"
             >
               ✏️ Upraviť
             </button>
             <button
               @click.stop="deleteFood(food)"
-              class="flex-1 px-3 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg font-medium text-sm transition-colors"
+              style="color: #fff; background-color: #ef4444;"
+              class="flex-1 px-3 py-2 hover:bg-red-600 rounded-lg font-medium text-sm transition-colors"
             >
               🗑️ Zmazať
             </button>
@@ -85,7 +89,7 @@
 
       <!-- Stats -->
       <div v-if="!loading && foods.length > 0" class="mt-12 bg-blue-50 rounded-lg p-6">
-        <p class="text-black text-center">
+        <p class="text-gray-700 text-center">
           <span class="font-bold text-blue-600">{{ filteredFoods.length }}</span> z 
           <span class="font-bold">{{ foods.length }}</span> jedál
         </p>
