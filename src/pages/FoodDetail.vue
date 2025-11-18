@@ -30,28 +30,28 @@
         <div class="bg-white rounded-lg shadow-lg p-8">
           <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-6">
             <div class="flex-1">
-              <h1 class="text-4xl font-bold text-gray-900 mb-4">{{ details.name }}</h1>
+              <h1 class="text-4xl font-bold text-black mb-4">{{ details.name }}</h1>
               
               <!-- Description -->
               <div v-if="details.description" class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
                 <h3 class="font-semibold text-blue-900 mb-2">📝 Popis</h3>
-                <p class="text-gray-700 leading-relaxed">{{ details.description }}</p>
+                <p class="text-black leading-relaxed">{{ details.description }}</p>
               </div>
             </div>
 
             <!-- Action Buttons -->
             <div class="flex flex-col gap-3 md:min-w-[200px]">
               <button
-                @click="addToCart"
+                @click="addAllToShoppingList"
                 class="flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors shadow-md"
               >
                 🛒 Pridať do košíka
               </button>
               <button
-                @click="addToCalendar"
-                class="flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors shadow-md"
+                @click="showMealScheduleModal = true"
+                class="flex items-center justify-center gap-2 bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors shadow-md"
               >
-                📅 Pridať do kalendára
+                📅 Pridať do plánu
               </button>
             </div>
           </div>
@@ -59,7 +59,7 @@
 
         <!-- Ingredients Section -->
         <div class="bg-white rounded-lg shadow-lg p-8">
-          <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+          <h2 class="text-2xl font-bold text-black mb-6 flex items-center gap-2">
             <span>🥗</span>
             Ingrediencie ({{ details.ingredients?.length || 0 }})
           </h2>
@@ -72,7 +72,7 @@
             >
               <div class="flex items-start justify-between gap-4">
                 <div class="flex-1">
-                  <h3 class="font-bold text-gray-900 text-lg mb-2">
+                  <h3 class="font-bold text-black text-lg mb-2">
                     {{ item.ingredient.name }}
                   </h3>
                   <p class="text-blue-600 font-semibold text-lg">
@@ -114,11 +114,42 @@
         </div>
       </div>
     </div>
+
+    <!-- Quick Meal Schedule Modal -->
+    <div v-if="showMealScheduleModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+      <div class="bg-white rounded-lg shadow-2xl max-w-lg w-full">
+        <div class="bg-purple-600 text-white px-6 py-4 rounded-t-lg">
+          <h2 class="text-2xl font-bold">📅 Pridať do plánu</h2>
+        </div>
+        <form @submit.prevent="addToMealSchedule" class="p-6 space-y-4">
+          <div>
+            <label class="block text-sm font-semibold text-black mb-2">Dátum</label>
+            <input v-model="mealScheduleForm.date" type="date" required class="w-full px-4 py-2 border rounded-lg" />
+          </div>
+          <div>
+            <label class="block text-sm font-semibold text-black mb-2">Časť dňa</label>
+            <select v-model="mealScheduleForm.dayPart" required class="w-full px-4 py-2 border rounded-lg">
+              <option value="">Vyber časť dňa</option>
+              <option value="RANAJKY">🌅 Raňajky</option>
+              <option value="DESIATA">☕ Desiata</option>
+              <option value="OBED">🍽️ Obed</option>
+              <option value="OLOVRANT">🍪 Olovrant</option>
+              <option value="VECERA">🌙 Večera</option>
+              <option value="NESKORA_VECERA">🌃 Neskorá večera</option>
+            </select>
+          </div>
+          <div class="flex gap-3 pt-4">
+            <button type="button" @click="showMealScheduleModal = false" class="flex-1 px-6 py-3 border rounded-lg">Zrušiť</button>
+            <button type="submit" class="flex-1 px-6 py-3 bg-purple-600 text-white rounded-lg">Pridať</button>
+          </div>
+        </form>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import { foodAPI } from '../api/api-client';
+import { foodAPI, shoppingListAPI, mealScheduleAPI } from '../api/api-client';
 
 export default {
   name: 'FoodDetail',
@@ -127,6 +158,11 @@ export default {
       details: null,
       loading: true,
       error: null,
+      showMealScheduleModal: false,
+      mealScheduleForm: {
+        date: '',
+        dayPart: '',
+      },
     };
   },
   computed: {
@@ -168,13 +204,40 @@ export default {
     goBack() {
       this.$router.push({ name: 'Foods' });
     },
-    addToCart() {
-      // TODO: Implementovať pridanie do košíka
-      alert(`"${this.details.name}" bude pridané do košíka (funkcia zatiaľ nie je implementovaná)`);
+    async addAllToShoppingList() {
+      if (!this.details?.ingredients || this.details.ingredients.length === 0) {
+        alert('Toto jedlo nemá žiadne ingrediencie');
+        return;
+      }
+
+      try {
+        const promises = this.details.ingredients.map(item =>
+          shoppingListAPI.create({
+            ingredientId: item.ingredient.id,
+            amount: item.amount,
+            unit: item.unit,
+          })
+        );
+        await Promise.all(promises);
+        this.$store.dispatch('setSuccess', 'Všetky ingrediencie boli pridané do nákupného zoznamu');
+      } catch (error) {
+        console.error('Chyba pri pridávaní do nákupného zoznamu:', error);
+        this.$store.dispatch('setError', 'Chyba pri pridávaní do nákupného zoznamu');
+      }
     },
-    addToCalendar() {
-      // TODO: Implementovať pridanie do kalendára
-      alert(`"${this.details.name}" bude pridané do kalendára (funkcia zatiaľ nie je implementovaná)`);
+    async addToMealSchedule() {
+      try {
+        await mealScheduleAPI.create({
+          date: this.mealScheduleForm.date,
+          foodId: parseInt(this.$route.params.id),
+          dayPart: this.mealScheduleForm.dayPart,
+        });
+        this.showMealScheduleModal = false;
+        this.$store.dispatch('setSuccess', 'Jedlo bolo pridané do plánu');
+      } catch (error) {
+        console.error('Chyba pri pridávaní do plánu:', error);
+        this.$store.dispatch('setError', 'Chyba pri pridávaní do plánu');
+      }
     },
   },
 };

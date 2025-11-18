@@ -11,7 +11,7 @@
           {{ error }}
         </div>
         <div>
-          <label for="email" class="block text-sm font-medium text-gray-700 mb-2">
+          <label for="email" class="block text-sm font-medium text-black mb-2">
             Email
           </label>
           <input
@@ -19,12 +19,12 @@
             v-model="formData.email"
             type="email"
             required
-            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-black"
             placeholder="vas@email.com"
           />
         </div>
         <div>
-          <label for="password" class="block text-sm font-medium text-gray-700 mb-2">
+          <label for="password" class="block text-sm font-medium text-black mb-2">
             Heslo
           </label>
           <input
@@ -32,7 +32,7 @@
             v-model="formData.password"
             type="password"
             required
-            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-black"
             placeholder="••••••••"
           />
         </div>

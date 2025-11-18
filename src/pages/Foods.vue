@@ -3,9 +3,17 @@
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <!-- Header -->
       <div class="mb-8">
-        <div class="flex items-center gap-3 mb-4">
-          <span class="text-4xl">🍽️</span>
-          <h1 class="text-3xl sm:text-4xl font-bold text-gray-900">Jedlá</h1>
+        <div class="flex items-center justify-between mb-4">
+          <div class="flex items-center gap-3">
+            <span class="text-4xl">🍽️</span>
+            <h1 class="text-3xl sm:text-4xl font-bold text-black">Jedlá</h1>
+          </div>
+          <button
+            @click="openCreateModal"
+            class="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors shadow-md"
+          >
+            ➕ Nové jedlo
+          </button>
         </div>
         <p class="text-gray-600">Prehliadaj a spravuj všetky dostupné jedlá</p>
       </div>
@@ -34,16 +42,36 @@
         <div
           v-for="food in filteredFoods"
           :key="food.id"
-          @click="selectFood(food)"
-          class="bg-white rounded-lg shadow-md hover:shadow-xl p-6 cursor-pointer transition-all hover:translate-y-[-4px] group"
+          class="bg-white rounded-lg shadow-md hover:shadow-xl p-6 transition-all group"
         >
-          <div class="flex items-center justify-between mb-3">
-            <h3 class="text-xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors">
-              {{ food.name }}
-            </h3>
-            <span class="text-2xl">🍽️</span>
+          <div 
+            @click="selectFood(food)"
+            class="cursor-pointer"
+          >
+            <div class="flex items-center justify-between mb-3">
+              <h3 class="text-xl font-bold text-black group-hover:text-blue-600 transition-colors">
+                {{ food.name }}
+              </h3>
+              <span class="text-2xl">🍽️</span>
+            </div>
+            <p class="text-gray-600 text-sm">Kliknite pre detaily</p>
           </div>
-          <p class="text-gray-600 text-sm">Kliknite pre detaily</p>
+          
+          <!-- Action Buttons -->
+          <div class="flex gap-2 mt-4 pt-4 border-t border-gray-200">
+            <button
+              @click.stop="openEditModal(food)"
+              class="flex-1 px-3 py-2 bg-yellow-500 hover:bg-yellow-600 text-white rounded-lg font-medium text-sm transition-colors"
+            >
+              ✏️ Upraviť
+            </button>
+            <button
+              @click.stop="deleteFood(food)"
+              class="flex-1 px-3 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg font-medium text-sm transition-colors"
+            >
+              🗑️ Zmazať
+            </button>
+          </div>
         </div>
       </div>
 
@@ -57,25 +85,39 @@
 
       <!-- Stats -->
       <div v-if="!loading && foods.length > 0" class="mt-12 bg-blue-50 rounded-lg p-6">
-        <p class="text-gray-700 text-center">
+        <p class="text-black text-center">
           <span class="font-bold text-blue-600">{{ filteredFoods.length }}</span> z 
           <span class="font-bold">{{ foods.length }}</span> jedál
         </p>
       </div>
     </div>
+
+    <!-- Food Form Modal -->
+    <FoodFormModal
+      :show="showModal"
+      :food="selectedFood"
+      @close="closeModal"
+      @success="onFoodSaved"
+    />
   </div>
 </template>
 
 <script>
 import { foodAPI } from '../api/api-client';
+import FoodFormModal from '../components/FoodFormModal.vue';
 
 export default {
   name: 'Foods',
+  components: {
+    FoodFormModal,
+  },
   data() {
     return {
       foods: [],
       searchTerm: '',
       loading: false,
+      showModal: false,
+      selectedFood: null,
     };
   },
   computed: {
@@ -106,9 +148,36 @@ export default {
       this.$store.dispatch('setSelectedFood', food);
       this.$router.push({ name: 'FoodDetail', params: { id: food.id } });
     },
+    openCreateModal() {
+      this.selectedFood = null;
+      this.showModal = true;
+    },
+    openEditModal(food) {
+      this.selectedFood = food;
+      this.showModal = true;
+    },
+    closeModal() {
+      this.showModal = false;
+      this.selectedFood = null;
+    },
+    async onFoodSaved() {
+      await this.loadFoods();
+      this.$store.dispatch('setSuccess', this.selectedFood ? 'Jedlo bolo úspešne upravené' : 'Jedlo bolo úspešne vytvorené');
+    },
+    async deleteFood(food) {
+      if (!confirm(`Naozaj chceš zmazať jedlo "${food.name}"?`)) {
+        return;
+      }
+
+      try {
+        await foodAPI.delete(food.id);
+        await this.loadFoods();
+        this.$store.dispatch('setSuccess', 'Jedlo bolo úspešne zmazané');
+      } catch (error) {
+        console.error('Chyba pri mazaní jedla:', error);
+        this.$store.dispatch('setError', 'Chyba pri mazaní jedla');
+      }
+    },
   },
 };
 </script>
-
-<style scoped>
-</style>

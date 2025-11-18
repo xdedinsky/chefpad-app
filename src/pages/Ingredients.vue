@@ -6,7 +6,7 @@
         <div>
           <div class="flex items-center gap-3 mb-4">
             <span class="text-4xl">🥬</span>
-            <h1 class="text-3xl sm:text-4xl font-bold text-gray-900">Ingrediencie</h1>
+            <h1 class="text-3xl sm:text-4xl font-bold text-black">Ingrediencie</h1>
           </div>
           <p class="text-gray-600">Spravuj ingrediencie a ich alergény</p>
         </div>
@@ -20,10 +20,10 @@
 
       <!-- Add Form -->
       <div v-if="showForm" class="bg-white rounded-lg shadow-md p-6 mb-8">
-        <h2 class="text-2xl font-bold mb-6 text-gray-900">Nová ingrediencia</h2>
+        <h2 class="text-2xl font-bold mb-6 text-black">Nová ingrediencia</h2>
         <form @submit.prevent="handleAddIngredient">
           <div class="mb-4">
-            <label class="block text-sm font-medium text-gray-700 mb-2">
+            <label class="block text-sm font-medium text-black mb-2">
               Názov ingrediencie
             </label>
             <input
@@ -36,7 +36,7 @@
           </div>
 
           <div class="mb-6">
-            <label class="block text-sm font-medium text-gray-700 mb-3">
+            <label class="block text-sm font-medium text-black mb-3">
               Alergény
             </label>
             <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
@@ -52,7 +52,7 @@
                   class="w-4 h-4 rounded border-gray-300 text-green-600"
                   :disabled="isSubmitting"
                 />
-                <span class="text-sm text-gray-700">{{ allergen.name }}</span>
+                <span class="text-sm text-black">{{ allergen.name }}</span>
               </label>
             </div>
           </div>
@@ -90,7 +90,7 @@
           class="bg-white rounded-lg shadow-md p-6 flex items-start justify-between hover:shadow-lg transition-shadow"
         >
           <div class="flex-1">
-            <h3 class="text-lg font-bold text-gray-900 mb-2">{{ ingredient.name }}</h3>
+            <h3 class="text-lg font-bold text-black mb-2">{{ ingredient.name }}</h3>
             <div v-if="ingredient.allergens && ingredient.allergens.length > 0" class="flex flex-wrap gap-2">
               <span
                 v-for="allergen in ingredient.allergens"

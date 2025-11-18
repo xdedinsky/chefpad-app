@@ -46,10 +46,13 @@ export const ingredientAPI = {
   delete: (id) => apiClient.delete(`/ingredient/${id}`),
 };
 
-// Food API
+// Food API - ROZŠÍRENÉ
 export const foodAPI = {
   getAll: () => apiClient.get('/food'),
   getById: (id) => apiClient.get(`/food/${id}`),
+  create: (data) => apiClient.post('/food', data),
+  update: (id, data) => apiClient.put(`/food/${id}`, data),
+  delete: (id) => apiClient.delete(`/food/${id}`, { params: { id } }),
 };
 
 // Allergens API
@@ -57,17 +60,21 @@ export const allergenAPI = {
   getAll: () => apiClient.get('/allergen'),
 };
 
-// Meal Schedule API
+// Meal Schedule API - ROZŠÍRENÉ
 export const mealScheduleAPI = {
   get: (from = undefined, to = undefined) =>
     apiClient.get('/meal-schedule', {
       params: { from, to },
     }),
+  create: (data) => apiClient.post('/meal-schedule', data),
+  delete: (id) => apiClient.delete('/meal-schedule', { params: { id } }),
 };
 
-// Shopping List API
+// Shopping List API - ROZŠÍRENÉ
 export const shoppingListAPI = {
   get: () => apiClient.get('/shopping-list'),
+  create: (data) => apiClient.post('/shopping-list', data),
+  delete: (id) => apiClient.delete('/shopping-list', { params: { id } }),
 };
 
 export default apiClient;

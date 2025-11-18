@@ -19,42 +19,42 @@
             <template v-if="isAuthenticated">
               <router-link 
                 to="/" 
-                class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-base font-medium transition-colors"
+                class="text-black hover:text-blue-600 px-3 py-2 rounded-md text-base font-medium transition-colors"
                 active-class="text-blue-600 font-semibold"
               >
                 🏠 Domov
               </router-link>
               <router-link 
                 to="/foods" 
-                class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-base font-medium transition-colors"
+                class="text-black hover:text-blue-600 px-3 py-2 rounded-md text-base font-medium transition-colors"
                 active-class="text-blue-600 font-semibold"
               >
                 🍽️ Jedlá
               </router-link>
               <router-link 
                 to="/ingredients" 
-                class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-base font-medium transition-colors"
+                class="text-black hover:text-blue-600 px-3 py-2 rounded-md text-base font-medium transition-colors"
                 active-class="text-blue-600 font-semibold"
               >
                 🥬 Ingrediencie
               </router-link>
               <router-link 
                 to="/meal-schedule" 
-                class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-base font-medium transition-colors"
+                class="text-black hover:text-blue-600 px-3 py-2 rounded-md text-base font-medium transition-colors"
                 active-class="text-blue-600 font-semibold"
               >
                 📅 Plán jedál
               </router-link>
               <router-link 
                 to="/shopping-list" 
-                class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-base font-medium transition-colors"
+                class="text-black hover:text-blue-600 px-3 py-2 rounded-md text-base font-medium transition-colors"
                 active-class="text-blue-600 font-semibold"
               >
                 🛒 Nákupný zoznam
               </router-link>
               <button 
                 @click="handleLogout"
-                class="text-gray-700 hover:text-red-600 px-3 py-2 rounded-md text-base font-medium transition-colors"
+                class="text-black hover:text-red-600 px-3 py-2 rounded-md text-base font-medium transition-colors"
               >
                 🚪 Odhlásiť sa
               </button>
@@ -62,7 +62,7 @@
             <template v-else>
               <router-link 
                 to="/login" 
-                class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-base font-medium transition-colors"
+                class="text-black hover:text-blue-600 px-3 py-2 rounded-md text-base font-medium transition-colors"
                 active-class="text-blue-600 font-semibold"
               >
                 🔐 Prihlásiť sa
@@ -80,7 +80,7 @@
           <div class="md:hidden">
             <button 
               @click="mobileMenuOpen = !mobileMenuOpen"
-              class="text-gray-700 hover:text-blue-600 focus:outline-none focus:text-blue-600 p-2"
+              class="text-black hover:text-blue-600 focus:outline-none focus:text-blue-600 p-2"
             >
               <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path 
@@ -109,7 +109,7 @@
               <router-link 
                 to="/" 
                 @click="mobileMenuOpen = false"
-                class="text-gray-700 hover:text-blue-600 block px-3 py-2 rounded-md text-lg font-medium transition-colors"
+                class="text-black hover:text-blue-600 block px-3 py-2 rounded-md text-lg font-medium transition-colors"
                 active-class="text-blue-600 font-semibold bg-blue-50"
               >
                 🏠 Domov
@@ -117,7 +117,7 @@
               <router-link 
                 to="/foods" 
                 @click="mobileMenuOpen = false"
-                class="text-gray-700 hover:text-blue-600 block px-3 py-2 rounded-md text-lg font-medium transition-colors"
+                class="text-black hover:text-blue-600 block px-3 py-2 rounded-md text-lg font-medium transition-colors"
                 active-class="text-blue-600 font-semibold bg-blue-50"
               >
                 🍽️ Jedlá
@@ -125,7 +125,7 @@
               <router-link 
                 to="/ingredients" 
                 @click="mobileMenuOpen = false"
-                class="text-gray-700 hover:text-blue-600 block px-3 py-2 rounded-md text-lg font-medium transition-colors"
+                class="text-black hover:text-blue-600 block px-3 py-2 rounded-md text-lg font-medium transition-colors"
                 active-class="text-blue-600 font-semibold bg-blue-50"
               >
                 🥬 Ingrediencie
@@ -133,7 +133,7 @@
               <router-link 
                 to="/meal-schedule" 
                 @click="mobileMenuOpen = false"
-                class="text-gray-700 hover:text-blue-600 block px-3 py-2 rounded-md text-lg font-medium transition-colors"
+                class="text-black hover:text-blue-600 block px-3 py-2 rounded-md text-lg font-medium transition-colors"
                 active-class="text-blue-600 font-semibold bg-blue-50"
               >
                 📅 Plán jedál
@@ -141,14 +141,14 @@
               <router-link 
                 to="/shopping-list" 
                 @click="mobileMenuOpen = false"
-                class="text-gray-700 hover:text-blue-600 block px-3 py-2 rounded-md text-lg font-medium transition-colors"
+                class="text-black hover:text-blue-600 block px-3 py-2 rounded-md text-lg font-medium transition-colors"
                 active-class="text-blue-600 font-semibold bg-blue-50"
               >
                 🛒 Nákupný zoznam
               </router-link>
               <button 
                 @click="handleLogout"
-                class="text-gray-700 hover:text-red-600 block px-3 py-2 rounded-md text-lg font-medium transition-colors w-full text-left"
+                class="text-black hover:text-red-600 block px-3 py-2 rounded-md text-lg font-medium transition-colors w-full text-left"
               >
                 🚪 Odhlásiť sa
               </button>
@@ -157,7 +157,7 @@
               <router-link 
                 to="/login" 
                 @click="mobileMenuOpen = false"
-                class="text-gray-700 hover:text-blue-600 block px-3 py-2 rounded-md text-lg font-medium transition-colors"
+                class="text-black hover:text-blue-600 block px-3 py-2 rounded-md text-lg font-medium transition-colors"
                 active-class="text-blue-600 font-semibold bg-blue-50"
               >
                 🔐 Prihlásiť sa

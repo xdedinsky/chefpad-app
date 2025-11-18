@@ -11,59 +11,59 @@
           {{ error }}
         </div>
         <div>
-          <label for="name" class="block text-sm font-medium text-gray-700 mb-2">Meno</label>
+          <label for="name" class="block text-sm font-medium text-black mb-2">Meno</label>
           <input 
             id="name" 
             v-model="formData.name" 
             type="text" 
             required 
-            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900" 
+            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-black" 
             placeholder="Vaše meno" 
           />
         </div>
         <div>
-          <label for="lastName" class="block text-sm font-medium text-gray-700 mb-2">Priezvisko</label>
+          <label for="lastName" class="block text-sm font-medium text-black mb-2">Priezvisko</label>
           <input 
             id="lastName" 
             v-model="formData.lastName" 
             type="text" 
             required 
-            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900" 
+            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-black" 
             placeholder="Vaše priezvisko" 
           />
         </div>
         <div>
-          <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Email</label>
+          <label for="email" class="block text-sm font-medium text-black mb-2">Email</label>
           <input 
             id="email" 
             v-model="formData.email" 
             type="email" 
             required 
-            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900" 
+            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-black" 
             placeholder="vas@email.com" 
           />
         </div>
         <div>
-          <label for="password" class="block text-sm font-medium text-gray-700 mb-2">Heslo</label>
+          <label for="password" class="block text-sm font-medium text-black mb-2">Heslo</label>
           <input 
             id="password" 
             v-model="formData.password" 
             type="password" 
             required 
             minlength="6" 
-            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900" 
+            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-black" 
             placeholder="••••••••" 
           />
           <p class="text-xs text-gray-500 mt-1">Minimálne 6 znakov</p>
         </div>
         <div>
-          <label for="confirmPassword" class="block text-sm font-medium text-gray-700 mb-2">Potvrdenie hesla</label>
+          <label for="confirmPassword" class="block text-sm font-medium text-black mb-2">Potvrdenie hesla</label>
           <input 
             id="confirmPassword" 
             v-model="formData.confirmPassword" 
             type="password" 
             required 
-            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900" 
+            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-black" 
             placeholder="••••••••" 
           />
         </div>

@@ -3,7 +3,7 @@
     <!-- Compact Hero Section -->
     <section class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
       <div class="text-center">
-        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-3">
+        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-black mb-3">
           Vitaj v <span class="bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">ChefPad</span>
         </h1>
         <p class="text-base sm:text-lg text-gray-600 mb-6 max-w-2xl mx-auto">
@@ -38,7 +38,7 @@
 
     <!-- Features Section -->
     <section class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
-      <h2 class="text-2xl sm:text-3xl font-bold text-center mb-8 text-gray-900">Funkcionality</h2>
+      <h2 class="text-2xl sm:text-3xl font-bold text-center mb-8 text-black">Funkcionality</h2>
       
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <router-link
@@ -50,7 +50,7 @@
           <div class="mb-4 inline-block p-3 bg-blue-100 rounded-lg group-hover:bg-blue-600 transition-colors text-2xl">
             {{ feature.icon }}
           </div>
-          <h3 class="text-xl font-bold text-gray-900 mb-2">{{ feature.title }}</h3>
+          <h3 class="text-xl font-bold text-black mb-2">{{ feature.title }}</h3>
           <p class="text-gray-600">{{ feature.description }}</p>
         </router-link>
       </div>
