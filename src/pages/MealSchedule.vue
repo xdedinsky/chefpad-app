@@ -137,8 +137,8 @@ export default {
         }
         grouped[schedule.date].meals.push({
           id: schedule.id,
-          dayPart: schedule.dayPart,
-          foodName: schedule.food?.name || 'Neznáme jedlo',
+          dayPart: schedule.dayPartName,
+          foodName: schedule.foodName || 'Neznáme jedlo',
         });
       });
 

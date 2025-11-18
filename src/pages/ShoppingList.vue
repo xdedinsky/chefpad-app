@@ -163,11 +163,12 @@ export default {
       }
 
       try {
-        await shoppingListAPI.delete(itemId);
+        await shoppingListAPI.delete(parseInt(itemId));
         this.refreshTrigger++;
         this.$store.dispatch('setSuccess', 'Položka bola odstránená z nákupného zoznamu');
       } catch (error) {
         console.error('Chyba pri odstraňovaní položky:', error);
+        console.error('Response data:', error.response?.data);
         this.$store.dispatch('setError', 'Chyba pri odstraňovaní položky z nákupného zoznamu');
       }
     },
@@ -175,18 +176,14 @@ export default {
       if (!confirm(`Naozaj chceš odstrániť všetkých ${this.shoppingList.length} položiek z nákupného zoznamu?`)) {
         return;
       }
-
       try {
-        // Odstránenie všetkých položiek paralelne
-        const deletePromises = this.shoppingList.map(item => 
+        const deletePromises = this.shoppingList.map(item =>
           shoppingListAPI.delete(item.id)
         );
         await Promise.all(deletePromises);
-        
         this.refreshTrigger++;
         this.$store.dispatch('setSuccess', 'Nákupný zoznam bol úspešne vymazaný');
       } catch (error) {
-        console.error('Chyba pri mazaní nákupného zoznamu:', error);
         this.$store.dispatch('setError', 'Chyba pri mazaní nákupného zoznamu');
       }
     },

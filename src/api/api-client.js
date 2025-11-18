@@ -9,7 +9,6 @@ const apiClient = axios.create({
   },
 });
 
-// Interceptor - pridanie tokenu do každého requestu
 apiClient.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('authToken');
@@ -21,7 +20,6 @@ apiClient.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-// Interceptor - handling 401
 apiClient.interceptors.response.use(
   (response) => response,
   (error) => {
@@ -33,20 +31,17 @@ apiClient.interceptors.response.use(
   }
 );
 
-// Auth API
 export const authAPI = {
   register: (data) => apiClient.post('/auth/register', data),
   login: (data) => apiClient.post('/auth/login', data),
 };
 
-// Ingredients API
 export const ingredientAPI = {
   getAll: () => apiClient.get('/ingredient'),
   create: (data) => apiClient.post('/ingredient', data),
   delete: (id) => apiClient.delete(`/ingredient/${id}`),
 };
 
-// Food API - ROZŠÍRENÉ
 export const foodAPI = {
   getAll: () => apiClient.get('/food'),
   getById: (id) => apiClient.get(`/food/${id}`),
@@ -55,12 +50,10 @@ export const foodAPI = {
   delete: (id) => apiClient.delete(`/food/${id}`, { params: { id } }),
 };
 
-// Allergens API
 export const allergenAPI = {
   getAll: () => apiClient.get('/allergen'),
 };
 
-// Meal Schedule API - ROZŠÍRENÉ
 export const mealScheduleAPI = {
   get: (from = undefined, to = undefined) =>
     apiClient.get('/meal-schedule', {
@@ -70,7 +63,6 @@ export const mealScheduleAPI = {
   delete: (id) => apiClient.delete('/meal-schedule', { params: { id } }),
 };
 
-// Shopping List API - ROZŠÍRENÉ
 export const shoppingListAPI = {
   get: () => apiClient.get('/shopping-list'),
   create: (data) => apiClient.post('/shopping-list', data),
